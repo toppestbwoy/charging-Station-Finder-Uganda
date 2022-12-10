@@ -200,6 +200,34 @@ class FilterScreen(ctx: CarContext, val session: EVMapSession) : Screen(ctx) {
                         Row.IMAGE_TYPE_ICON
                     )
                     setOnClickListener { onItemClick(it.id) }
+                    addAction(Action.Builder().apply {
+                        setIcon(
+                            CarIcon.Builder(
+                                IconCompat.createWithResource(
+                                    carContext,
+                                    R.drawable.ic_delete
+                                )
+                            ).build()
+
+                        )
+                        setOnClickListener {
+                            lifecycleScope.launch {
+                                db.filterProfileDao().delete(it)
+                                if (prefs.filterStatus == it.id) {
+                                    prefs.filterStatus = FILTERS_DISABLED
+                                }
+                                CarToast.makeText(
+                                    carContext,
+                                    carContext.getString(
+                                        R.string.deleted_filterprofile,
+                                        it.name
+                                    ),
+                                    CarToast.LENGTH_SHORT
+                                ).show()
+                                invalidate()
+                            }
+                        }
+                    }.build())
                 }.build())
             }
             if (page < paginatedProfiles.size - 1) {

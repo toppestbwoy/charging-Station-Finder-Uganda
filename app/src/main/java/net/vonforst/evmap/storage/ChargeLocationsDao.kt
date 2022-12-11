@@ -150,7 +150,7 @@ class ChargeLocationsRepository(
         val api = api.value!!
 
         // database does not support radius queries, so let's build a square query instead
-        val cornerDistance = radius * sqrt(2.0)
+        val cornerDistance = radius * 1000 * sqrt(2.0)  // radius is given in km
         val southwest = SphericalUtil.computeOffset(location, cornerDistance, 225.0)
         val northeast = SphericalUtil.computeOffset(location, cornerDistance, 45.0)
         val bounds = LatLngBounds(southwest, northeast)

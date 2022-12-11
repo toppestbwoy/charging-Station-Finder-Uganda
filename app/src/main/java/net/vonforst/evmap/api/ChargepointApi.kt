@@ -11,6 +11,9 @@ import net.vonforst.evmap.viewmodel.Resource
 import java.time.Duration
 
 interface ChargepointApi<out T : ReferenceData> {
+    /**
+     * Query for chargepoints within certain geographic bounds
+     */
     suspend fun getChargepoints(
         referenceData: ReferenceData,
         bounds: LatLngBounds,
@@ -19,6 +22,9 @@ interface ChargepointApi<out T : ReferenceData> {
         filters: FilterValues?
     ): Resource<List<ChargepointListItem>>
 
+    /**
+     * Query for chargepoints within a given radius in kilometers
+     */
     suspend fun getChargepointsRadius(
         referenceData: ReferenceData,
         location: LatLng,
@@ -28,6 +34,9 @@ interface ChargepointApi<out T : ReferenceData> {
         filters: FilterValues?
     ): Resource<List<ChargepointListItem>>
 
+    /**
+     * Fetches detailed data for a specific charging site
+     */
     suspend fun getChargepointDetail(
         referenceData: ReferenceData,
         id: Long
